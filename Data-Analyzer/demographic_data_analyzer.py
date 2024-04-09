@@ -9,10 +9,10 @@ def calculate_demographic_data(print_data=True):
     race_count = df['race'].value_counts()
 
     # What is the average age of men?
-    average_age_men = (df.loc[df['sex'] == 'Male'])['age'].mean()
+    average_age_men = round((df.loc[df['sex'] == 'Male'])['age'].mean(), 1)
 
     # What is the percentage of people who have a Bachelor's degree?
-    percentage_bachelors = ((df.loc[df['education'] == 'Bachelors'])['education'].count() / df['education'].count()) * 100
+    percentage_bachelors = round(((df.loc[df['education'] == 'Bachelors'])['education'].count() / df['education'].count()) * 100, 1)
 
     # What percentage of people with advanced education (`Bachelors`, `Masters`, or `Doctorate`) make more than 50K?
     # What percentage of people without advanced education make more than 50K?
@@ -21,8 +21,8 @@ def calculate_demographic_data(print_data=True):
     lower_education = df.loc[(df['education-num'] != 13) & (df['education-num'] != 14) & (df['education-num'] != 16)]
 
     # percentage with salary >50K
-    higher_education_rich = (((higher_education.loc[higher_education['salary'] == '>50K'])['salary'].count()) / (higher_education['salary'].count())) * 100
-    lower_education_rich = ((lower_education.loc[lower_education['salary'] == '>50K'])['salary'].count() / (lower_education['salary'].count())) * 100
+    higher_education_rich = round((((higher_education.loc[higher_education['salary'] == '>50K'])['salary'].count()) / (higher_education['salary'].count())) * 100, 1)
+    lower_education_rich = round(((lower_education.loc[lower_education['salary'] == '>50K'])['salary'].count() / (lower_education['salary'].count())) * 100, 1)
 
     # What is the minimum number of hours a person works per week (hours-per-week feature)?
     min_work_hours = df.dropna()['hours-per-week'].min()
@@ -32,23 +32,23 @@ def calculate_demographic_data(print_data=True):
     rich_percentage = ((df.loc[(df['salary'] == '>50K') & (df['hours-per-week'] == min_work_hours)])['hours-per-week'].count() / num_min_workers) * 100
 
     # What country has the highest percentage of people that earn >50K?
-    #highest_earning_country = df.loc[df.]
-    #highest_earning_country_percentage = None
+    highest_earning_country = ((df['native-country'][df['salary'] == '>50K'].value_counts()) / (df['native-country'].value_counts())).idxmax()
+    highest_earning_country_percentage = round(((df['native-country'][df['salary'] == '>50K'].value_counts()) / (df['native-country'].value_counts())).max() * 100, 1)
 
     # Identify the most popular occupation for those who earn >50K in India.
     top_IN_occupation = (df.loc[(df['salary'] == '>50K') & (df['native-country'] == 'India')])['occupation'].value_counts().idxmax()
     # DO NOT MODIFY BELOW THIS LINE
 
     if print_data:
-        #print("Number of each race:\n", race_count) 
-        #print("Average age of men:", average_age_men)
-        #print(f"Percentage with Bachelors degrees: {percentage_bachelors}%")
-        #print(f"Percentage with higher education that earn >50K: {higher_education_rich}%")
-        #print(f"Percentage without higher education that earn >50K: {lower_education_rich}%")
-        #print(f"Min work time: {min_work_hours} hours/week")
-        #print(f"Percentage of rich among those who work fewest hours: {rich_percentage}%")
-        #print("Country with highest percentage of rich:", highest_earning_country)
-        #print(f"Highest percentage of rich people in country: {highest_earning_country_percentage}%")
+        print("Number of each race:\n", race_count) 
+        print("Average age of men:", average_age_men)
+        print(f"Percentage with Bachelors degrees: {percentage_bachelors}%")
+        print(f"Percentage with higher education that earn >50K: {higher_education_rich}%")
+        print(f"Percentage without higher education that earn >50K: {lower_education_rich}%")
+        print(f"Min work time: {min_work_hours} hours/week")
+        print(f"Percentage of rich among those who work fewest hours: {rich_percentage}%")
+        print("Country with highest percentage of rich:", highest_earning_country)
+        print(f"Highest percentage of rich people in country: {highest_earning_country_percentage}%")
         print("Top occupations in India:", top_IN_occupation)
 
     return {
@@ -59,8 +59,7 @@ def calculate_demographic_data(print_data=True):
         'lower_education_rich': lower_education_rich,
         'min_work_hours': min_work_hours,
         'rich_percentage': rich_percentage,
-        #'highest_earning_country': highest_earning_country,
-        #'highest_earning_country_percentage':
-        #highest_earning_country_percentage,
+        'highest_earning_country': highest_earning_country,
+        'highest_earning_country_percentage': highest_earning_country_percentage,
         'top_IN_occupation': top_IN_occupation
     }
