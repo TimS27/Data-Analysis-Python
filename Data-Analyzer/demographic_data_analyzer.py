@@ -32,12 +32,11 @@ def calculate_demographic_data(print_data=True):
     rich_percentage = ((df.loc[(df['salary'] == '>50K') & (df['hours-per-week'] == min_work_hours)])['hours-per-week'].count() / num_min_workers) * 100
 
     # What country has the highest percentage of people that earn >50K?
-    #highest_earning_country = None
+    #highest_earning_country = df.loc[df.]
     #highest_earning_country_percentage = None
 
     # Identify the most popular occupation for those who earn >50K in India.
-    #top_IN_occupation = None
-
+    top_IN_occupation = (df.loc[(df['salary'] == '>50K') & (df['native-country'] == 'India')])['occupation'].value_counts().idxmax()
     # DO NOT MODIFY BELOW THIS LINE
 
     if print_data:
@@ -47,10 +46,10 @@ def calculate_demographic_data(print_data=True):
         #print(f"Percentage with higher education that earn >50K: {higher_education_rich}%")
         #print(f"Percentage without higher education that earn >50K: {lower_education_rich}%")
         #print(f"Min work time: {min_work_hours} hours/week")
-        print(f"Percentage of rich among those who work fewest hours: {rich_percentage}%")
+        #print(f"Percentage of rich among those who work fewest hours: {rich_percentage}%")
         #print("Country with highest percentage of rich:", highest_earning_country)
         #print(f"Highest percentage of rich people in country: {highest_earning_country_percentage}%")
-        #print("Top occupations in India:", top_IN_occupation)
+        print("Top occupations in India:", top_IN_occupation)
 
     return {
         'race_count': race_count,
@@ -63,5 +62,5 @@ def calculate_demographic_data(print_data=True):
         #'highest_earning_country': highest_earning_country,
         #'highest_earning_country_percentage':
         #highest_earning_country_percentage,
-        #'top_IN_occupation': top_IN_occupation
+        'top_IN_occupation': top_IN_occupation
     }
